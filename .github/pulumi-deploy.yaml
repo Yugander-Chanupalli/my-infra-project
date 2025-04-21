@@ -3,7 +3,7 @@ name: Pulumi Deploy
 on:
   push:
     branches:
-      - main
+      - main  # or 'dev', whichever you're using
 
 jobs:
   deploy:
@@ -12,6 +12,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -24,18 +25,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r policy-pack/requirements.bd
+          pip install -r infra/requirements.txt
+          pip install -r infra/policy-pack/requirements.txt
 
       - name: Install Pulumi CLI
         uses: pulumi/actions@v4
 
       - name: Initialize Pulumi stack
+        working-directory: infra
         run: pulumi stack select dev
 
       - name: Pulumi preview with policy pack
+        working-directory: infra
         run: pulumi preview --policy-pack ./policy-pack
 
       - name: Pulumi up with policy pack
+        working-directory: infra
         run: pulumi up --yes --policy-pack ./policy-pack
