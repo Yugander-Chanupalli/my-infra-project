@@ -22,6 +22,7 @@ PolicyPack(
             name="no-public-s3-buckets",
             description="Prohibits public S3 buckets by ACL settings on BucketV2 or BucketAclV2.",
             validate=s3_bucket_policy_validator,
+            enforcement_level="mandatory",  # 🔒 This blocks deployment if violated
         ),
     ],
 )
