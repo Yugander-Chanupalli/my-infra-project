@@ -1,0 +1,3 @@
+name: secure-aws-policies
+runtime: python
+description: Enforces security policies for AWS resources.
