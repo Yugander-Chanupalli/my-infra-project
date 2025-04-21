@@ -3,7 +3,7 @@ name: Pulumi Deploy
 on:
   push:
     branches:
-      - main  # change if you're working on a different branch
+      - main
 
 jobs:
   deploy:
@@ -13,7 +13,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-      AWS_REGION: us-east-1  # or whichever region you're using
+      PULUMI_PYTHON_CMD: python3  # 🛠 Tell Pulumi to use system Python
 
     steps:
       - name: Checkout code
@@ -25,9 +25,11 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
+        working-directory: infra
         run: |
-          pip install -r infra/requirements.txt
-          pip install -r infra/policy-pack/requirements.txt
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r policy-pack/requirements.txt
 
       - name: Install Pulumi CLI
         uses: pulumi/actions@v4
