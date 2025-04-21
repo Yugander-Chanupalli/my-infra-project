@@ -41,6 +41,10 @@ jobs:
       - name: Pulumi preview with policy pack
         working-directory: infra
         run: pulumi preview --policy-pack ./policy-pack
+        
+      - name: Pulumi refresh
+        working-directory: infra
+        run: pulumi refresh --yes
 
       - name: Pulumi up with policy pack
         working-directory: infra
