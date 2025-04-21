@@ -1,10 +1,6 @@
-name: Kid
-description: To learn how things work
-runtime:
-  name: python
-  options:
-    toolchain: pip
-config:
-  pulumi:tags:
-    value:
-      pulumi:template: aws-python
+name: my-infra-project
+runtime: python
+
+policyPack:
+  - name: secure-aws-policies
+    path: ./policy-pack
